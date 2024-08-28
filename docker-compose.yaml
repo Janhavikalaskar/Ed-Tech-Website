@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+          backend:
+                #image: backend     to use already build image
+                build: server        #image path to build
+                container_name: edtechbackend
+                ports:
+                   - "4000:4000"
+                # environment:
+                #       - PORT=${PORT}
+                #       - MONGODB_URL=${MONGODB_URL}
+                #       - JWT_secret=${JWT_secret}
+                #       - FOLDER_NAME=${FOLDER_NAME}
+                #       - CLOUD_NAME=${CLOUD_NAME}
+                #       - API_KEY=${API_KEY}
+                #       - API_SECRET=${API_SECRET}
+                #       - MAIL_HOST=${MAIL_HOST} 
+                #       - MAIL_USER=${MAIL_USER}
+                #       - MAIL_PASS=${MAIL_PASS}
+                #       - RAZORPAY_KEY=${RAZORPAY_KEY}
+                #       - RAZORPAY_SECRET=${RAZORPAY_SECRET}
+                env_file:
+                   - server/.env  #spicfying the path, by this no need to provide the env variables but still we are writing for knowledge
+          frontend:
+                  #image: frontend
+                  build:
+                    context: .
+                  container_name: edtechfrontend
+                  ports:
+                    - "3000:3000"
+                  depends_on:
+                    - backend
+                  environment:
+                     REACT_APP_BASE_URL : ${REACT_APP_BASE_URL}
+                     RAZORPAY_KEY : ${RAZORPAY_KEY}
+                   
